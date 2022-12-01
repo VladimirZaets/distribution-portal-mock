@@ -6,6 +6,7 @@ import (
 	"mime/multipart"
 	"os"
 
+	"github.com/VladimirZaets/distribution-portal/metadata"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,4 +33,8 @@ func (ls *LocalStorage) Save(file *multipart.FileHeader) error {
 	}
 	ls.c.SaveUploadedFile(file, fmt.Sprintf("%s/%s", path, file.Filename))
 	return nil
+}
+
+func (ls *LocalStorage) Get(m *metadata.Metadata) (*File, error) {
+	return nil, nil
 }

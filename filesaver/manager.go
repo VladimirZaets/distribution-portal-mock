@@ -1,15 +1,24 @@
 package filesaver
 
 import (
+	"io"
 	"mime/multipart"
 	"os"
 
+	"github.com/VladimirZaets/distribution-portal/metadata"
 	"github.com/gin-gonic/gin"
 )
 
 type filesaver interface {
 	Save(file *multipart.FileHeader) error
+	Get(m *metadata.Metadata) (*File, error)
 	GetType() string
+}
+
+type File struct {
+	ContentType   string
+	ContentLength int64
+	Reader        io.Reader
 }
 
 type Manager struct {
