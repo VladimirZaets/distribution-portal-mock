@@ -72,7 +72,7 @@ resource "aws_ecs_task_definition" "distribution-portal" {
   [
     {
       "name": "distribution-portal",
-      "image": "docker.io/vzaets/distribution-portal:0.12",
+      "image": "docker.io/vzaets/distribution-portal:0.13",
       "environment": [
                 {
                     "name": "DIST_PORTAL_ENV",
