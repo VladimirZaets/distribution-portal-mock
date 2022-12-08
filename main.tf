@@ -43,7 +43,7 @@ resource "aws_ecs_service" "distribution-portal" {
   load_balancer {
    target_group_arn = aws_lb_target_group.distribution-portal.arn
    container_name   = "distribution-portal"
-   container_port   = "8080"
+   container_port   = "3000"
  }
 
   network_configuration {
@@ -72,16 +72,20 @@ resource "aws_ecs_task_definition" "distribution-portal" {
   [
     {
       "name": "distribution-portal",
-      "image": "docker.io/vzaets/distribution-portal:0.13",
+      "image": "docker.io/vzaets/distribution-portal:0.15",
       "environment": [
                 {
                     "name": "DIST_PORTAL_ENV",
                     "value": "prod"
+                },
+                {
+                    "name": "PORT",
+                    "value": "3000"
                 }
             ],
       "portMappings": [
         {
-          "containerPort": 8080
+          "containerPort": 3000
         }
       ],
       "logConfiguration": {
@@ -202,14 +206,14 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
 
 resource "aws_lb_target_group" "distribution-portal" {
   name        = "distribution-portal"
-  port        = 8080
+  port        = 3000
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = aws_vpc.app_vpc.id
 
   health_check {
     enabled = true
-    path    = "/health"
+    path    = "/ping"
   }
 
   depends_on = [aws_alb.distribution-portal]
